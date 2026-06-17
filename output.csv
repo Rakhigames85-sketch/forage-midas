@@ -1,0 +1,17 @@
+import pandas as pd
+import glob
+
+files = glob.glob('*.csv')
+df_list = [pd.read_csv(f) for f in files]
+df = pd.concat(df_list, ignore_index=True)
+
+# Pink Morsels filter - column ka naam exact likhna
+df = df[df['product'] == 'Pink Morsels']
+
+# Sales column banao - quantity aur price ka naam check kar lena
+df['Sales'] = df['quantity'] * df['price']
+
+# Final columns - CSV me jo naam hai wahi likho
+final_df = df[['Date', 'Region', 'Sales']]
+
+final_df.to_csv('output.csv', index=False)
